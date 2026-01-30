@@ -1,0 +1,19 @@
+{"order_id":3001,"order_date":"2024-11-01","customer":"Juan Perez","product":"Laptop Dell","category":"Electronics","quantity":2,"unit_price":850.00,"region":"Lima"}
+
+{"order_id":3002,"order_date":"2024-11-02","customer":"Maria Lopez","product":"Keyboard Logitech","category":"Accessories","quantity":3,"unit_price":45.50,"region":"Cusco"}
+
+{"order_id":3003,"order_date":"2024-11-03","customer":"Ana Torres","product":"Mouse HP","category":"Accessories","quantity":null,"unit_price":25.00,"region":"Lima"}
+
+{"order_id":3004,"order_date":"2024-11-04","customer":"Carlos Diaz","product":"Monitor Samsung","category":"Electronics","quantity":1,"unit_price":null,"region":"Arequipa"}
+
+{"order_id":null,"order_date":null,"customer":null,"product":null,"category":null,"quantity":null,"unit_price":null,"region":null}
+
+{"order_id":3005,"order_date":"2024-11-05","customer":null,"product":"Printer Epson","category":"Office","quantity":1,"unit_price":150.00,"region":"Lima"}
+
+{"order_id":3006,"order_date":null,"customer":"Sandra Ruiz","product":"Laptop Lenovo","category":"Electronics","quantity":2,"unit_price":900.00,"region":"Piura"}
+
+{"order_id":null,"order_date":null,"customer":null,"product":null,"category":null,"quantity":null,"unit_price":null,"region":null}
+
+{"order_id":3001,"order_date":"2024-11-01","customer":"Juan Perez","product":"Laptop Dell","category":"Electronics","quantity":2,"unit_price":850.00,"region":"Lima"}
+
+{"order_id":3004,"order_date":"2024-11-04","customer":"Carlos Diaz","product":"Monitor Samsung","category":"Electronics","quantity":1,"unit_price":null,"region":"Arequipa"}
