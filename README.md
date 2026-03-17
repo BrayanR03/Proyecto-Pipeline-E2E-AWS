@@ -79,6 +79,14 @@ Este proyecto está pensado como material educativo y de portafolio, enfocado en
 
 ---
 
+## Proyecto dictado en Bootcamp Gratuito CONOVATEC - Construcción de un pipeline de datos en Amazon Web Services (AWS)
+
+* 🎦 Día #1 || Introducción, conceptos fundamentales de AWS, Amazon S3 y AWS IAM. || 16/03/2026
+  [Youtube](https://www.youtube.com/watch?v=BTpAUE4Y-7g&t=6070s)
+  [Linkedin](https://www.linkedin.com/feed/update/urn:li:activity:7439505255484215296/)
+  
+* 🎦 Día #2 - 17/03/2026 (Comming soon 🔜)
+
 ## 👤 Autor
 
 Brayan Neciosup |
