@@ -85,7 +85,11 @@ Este proyecto está pensado como material educativo y de portafolio, enfocado en
   [Youtube](https://www.youtube.com/watch?v=BTpAUE4Y-7g&t=6070s)
   [Linkedin](https://www.linkedin.com/feed/update/urn:li:activity:7439505255484215296/)
   
-* 🎦 Día #2 - 17/03/2026 (Comming soon 🔜)
+* 🎦 Día #2 || AWS Glue, Proceso ETL y Configuración Amazon Redshift || 17/03/2026
+  [Youtube](https://www.youtube.com/watch?v=TcAOup8Fa7Y)
+  [Linkedin](https://www.linkedin.com/feed/update/urn:li:activity:7440025523176697856/)
+
+---
 
 ## 👤 Autor
 
