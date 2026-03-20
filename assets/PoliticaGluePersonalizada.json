@@ -1,0 +1,65 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "S3AccessProjectBucket",
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket"
+            ],
+            "Resource": "arn:aws:s3:::bucket-data-source"
+        },
+        {
+            "Sid": "S3ReadWriteObjects",
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject",
+                "s3:DeleteObject"
+            ],
+            "Resource": "arn:aws:s3:::bucket-data-source/*"
+        },
+        {
+            "Sid": "GlueCatalogRead",
+            "Effect": "Allow",
+            "Action": [
+                "glue:GetDatabase",
+                "glue:GetDatabases",
+                "glue:GetTable",
+                "glue:GetTables",
+                "glue:GetPartitions",
+                "glue:GetConnection",
+                "glue:GetConnections"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Sid": "GlueCrawlerCatalogWrite",
+            "Effect": "Allow",
+            "Action": [
+                "glue:CreateTable",
+                "glue:UpdateTable",
+                "glue:DeleteTable",
+                "glue:CreatePartition",
+                "glue:UpdatePartition",
+                "glue:DeletePartition",
+                "glue:BatchCreatePartition"
+            ],
+            "Resource": [
+                "arn:aws:glue:us-east-2:376842762430:catalog",
+                "arn:aws:glue:us-east-2:376842762430:database/*",
+                "arn:aws:glue:us-east-2:376842762430:table/*/*"
+            ]
+        },
+        {
+            "Sid": "RedshiftDataAccess",
+            "Effect": "Allow",
+            "Action": [
+                "redshift-data:ExecuteStatement",
+                "redshift-data:DescribeStatement",
+                "redshift-data:GetStatementResult"
+            ],
+            "Resource": "*"
+        }
+    ]
+}

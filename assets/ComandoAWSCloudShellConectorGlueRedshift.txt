@@ -1,0 +1,17 @@
+aws glue create-connection \
+  --connection-input '{
+    "Name": "glue-redshift-connection",
+    "ConnectionType": "JDBC",
+    "Description": "Glue connection to Redshift Serverless",
+    "ConnectionProperties": {
+      "JDBC_CONNECTION_URL": "<URL_JDBC_DEL_WORKSPACE>",
+      "USERNAME": "admin",
+      "PASSWORD": "<PASSWORD_DEL_NAMESPACE>",
+      "JDBC_ENFORCE_SSL": "true"
+    },
+    "PhysicalConnectionRequirements": {
+      "SubnetId": "<SUBNET_DEL_WORKSPACE_ZONA_DISPONIBILIDAD_2a>",
+      "SecurityGroupIdList": ["<SECURITY_GROUP_DEL_WORKSPACE>"],
+      "AvailabilityZone": "us-east-2a"
+    }
+  }'

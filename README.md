@@ -89,6 +89,10 @@ Este proyecto está pensado como material educativo y de portafolio, enfocado en
   [Youtube](https://www.youtube.com/watch?v=TcAOup8Fa7Y)
   [Linkedin](https://www.linkedin.com/feed/update/urn:li:activity:7440025523176697856/)
 
+* 🎦 Día #3 || Amazon Redshift y Validación del Job ETL || 18/03/2026
+  [Youtube](https://www.youtube.com/watch?v=hEuA1MMQ9Pk)
+  [Linkedin](#-arquitectura-general)
+
 ---
 
 ## 👤 Autor

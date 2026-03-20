@@ -44,7 +44,7 @@ En esta etapa se prepara la capa de almacenamiento que actuará como fuente de d
 
 * Se utiliza un bucket previamente creado para el proyecto.
 
-* Nombre del bucket: ``` project-s3-glue-redshift-brayan ```
+* Nombre del bucket: ``` bucket-data-source ```
 
 #### 📄 Archivos de datos
 
@@ -76,7 +76,7 @@ Por este motivo, **Glue es el servicio principal (líder)** que asume este rol d
 
 #### 🧾 Detalles del rol IAM
 
-* Nombre del rol: ``` rol-project-s3-glue-redshift-brayan ```
+* Nombre del rol: ``` rol-project-s3-glue-redshift ```
 * Servicio que asume el rol (Trusted Entity): **AWS Glue**
 
 #### 📜 Políticas de permisos asignadas
@@ -85,14 +85,10 @@ Para efectos del proyecto y pruebas, se asignan las siguientes políticas admini
 
 * AWSGlueServiceRole
 
-* AWSGlueConsoleFullAccess
-
-* AmazonS3FullAccess
-
-* AmazonRedshiftFullAccess
+* PoliticaGluePersonalizada ➡️ [Link de recurso](https://github.com/BrayanR03/Proyecto-Pipeline-E2E-AWS/blob/main/assets/PoliticaGluePersonalizada.json)
 
 > ⚠️ Nota:
-En un entorno productivo, estas políticas deberían ser reemplazadas por políticas personalizadas más restrictivas. Para fines de este proyecto de portafolio, se prioriza la simplicidad y la correcta integración entre servicios.
+En un entorno productivo, estas políticas personalizadas son más restrictivas, priorizando el cumplimiento del **Principio del mínimo Privilegio** y una correcta integración entre servicios.
 
 ---
 
@@ -140,11 +136,11 @@ Se crea una base de datos lógica para organizar los metadatos del proyecto.
 
 Se configura un crawler apuntando al bucket y ruta donde se encuentran los archivos fuente en S3.
 
-* Nombre del crawler: ``` crawgler_project_s3_glue_redshift ```
-* Origen de datos: **Amazon S3 (bucket del proyecto)**, ingresamos al bucket **``` project-s3-glue-redshift-brayan ```** y seleccionamos **``` sales_test.json ```**
-* Selccionamos IAM role: **Rol creado anteriormente -> ``` rol-project-s3-glue-redshift-brayan ```**
+* Nombre del crawler: ``` crawler_project_s3_glue_redshift ```
+* Origen de datos: **Amazon S3 (bucket del proyecto)**, ingresamos al bucket **``` bucket-data-source ```** y seleccionamos **``` sales_test.json ```**
+* Selccionamos IAM role: **Rol creado anteriormente -> ``` rol-project-s3-glue-redshift ```**
 * Base de datos destino: **Base de datos db_project_s3_glue_redshift en el Data Catalog**
-* **Next o Siguiente** y le damos a **Create Crawgler**
+* **Next o Siguiente** y le damos a **Create Crawler**
 > 📝 Nota importante:
 Las tablas dentro del Data Catalog se crean automáticamente al ejecutar el crawler, en base al esquema inferido.
 
@@ -220,7 +216,7 @@ En caso de no poder previsualizar los datos del origen, se deben verificar los s
 
    * Ir a Job details del Visual ETL
 
-   * En la sección IAM Role, seleccionar el rol creado en el **Paso B**: ``` rol-project-s3-glue-redshift-brayan ```
+   * En la sección IAM Role, seleccionar el rol creado en el **Paso B**: ``` rol-project-s3-glue-redshift ```
 
 2. **Refrescar el entorno**
 
@@ -292,14 +288,15 @@ Query utilizada:
 SELECT 
     order_id,
     order_date,
-    customer,
+    COALESCE(customer,'NN') as customer,
     product,
     category,
     COALESCE(quantity, 0) AS quantity,
     COALESCE(unit_price, 0) AS unit_price,
     region,
-    COALESCE(quantity * unit_price, 0) AS total_sale
+    COALESCE(quantity * unit_price, 0) AS total_sales
 FROM myDataSource
+WHERE order_id is not null and order_date is not null
 ORDER BY order_id ASC;
 ```
 > 📌 Nota importante:
@@ -357,7 +354,7 @@ Amazon Redshift es un servicio serverless, donde AWS administra la mayor parte d
 
 Desde el servicio **Amazon Redshift**, seleccionamos **Crear grupo de trabajo (Workgroup)** y configuramos únicamente los campos más relevantes:
 
-* Nombre del grupo de trabajo: ```wk-brayan-project-s3-glue-redshift```
+* Nombre del grupo de trabajo: ```wk-project-s3-glue-redshift```
 
 En el apartado **Redes y seguridad**, configuramos:
 
@@ -378,7 +375,7 @@ Se dejan los demás valores por defecto y se continúa.
 
 El **Namespace** define las credenciales y el acceso lógico a la base de datos.
 
-* Nombre del Namespace: ```ns-brayan-project-s3-glue-redshift```
+* Nombre del Namespace: ```ns-project-s3-glue-redshift```
 
 * Se selecciona **Personalizar** credenciales del usuario administrador
 
@@ -395,20 +392,40 @@ Aquí surge una duda común:
 
 * 👉 No. Es un rol distinto.
 
-Este rol permite que Redshift acceda directamente a S3 para leer y escribir datos.
+Este rol permite que Redshift acceda directamente a S3 para leer y escribir datos. Asimismo, el rol lo crearemos directamente en IAM y luego lo asociaremos a Redshift
 
 Configuración del rol:
 
-* Access Type: **Full Access**
+* Nombre: ```AmazonRedsfhit-Rol-S3-Project```
 
-* S3 Buckets: se selecciona únicamente el bucket del proyecto (``` project-s3-glue-redshift ```)
+* Política personalizada:
 
-* Se crea el rol como predeterminado y se asigna al Namespace (rol creado a borrar despues AmazonRedshift-CommandsAccessRole-20260122T181821 )
+   * Nombre: ```PoliticaRedshiftPersonalizada.json``` 
+   ```bash
+   {
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Statement1",
+            "Effect": "Allow",
+            "Action": [
+                "s3:ListBucket"
+            ],
+            "Resource": "arn:aws:s3:::bucket-data-source"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:GetObject"
+            ],
+            "Resource": "arn:aws:s3:::bucket-data-source/*"
+        }
+    ]
+   }
+   ```
+* Se crea un rol  y se asigna al Namespace.
 
-Le damos a **Siguiente**, se revisan las configuraciones y se procede a **Crear**.
-
-> ⏳ Se debe esperar a que el Workgroup y el Namespace se creen correctamente.
-Una vez creados, aparecerán listados en el panel principal de Redshift.
+> ⏳ Se debe esperar a que el Workgroup y el Namespace se creen correctamente. Una vez creados, aparecerán listados en el panel principal de Redshift.
 
 #### b) Creación de la conexión Glue → Redshift (JDBC)
 
@@ -507,7 +524,7 @@ CREATE TABLE sales
     quantity INT,
     unit_price DECIMAL(10,2),
     region TEXT,
-    total_sale DECIMAL(10,2)
+    total_sales DECIMAL(10,2)
 );
 ```
 Se ejecuta la consulta y la tabla queda creada correctamente.

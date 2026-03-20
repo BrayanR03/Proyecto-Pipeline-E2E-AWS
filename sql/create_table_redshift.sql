@@ -8,5 +8,5 @@ CREATE TABLE sales
     quantity INT,
     unit_price DECIMAL(10,2),
     region TEXT,
-    total_sale DECIMAL(10,2)
+    total_sales DECIMAL(10,2)
 );
